@@ -25,9 +25,11 @@ abstract class BaseTest extends TestCase
     /** @var Container */
     protected $container;
 
+    const BOOTLOADERS = [TwigBootloader::class];
+
     public function setUp()
     {
-        $this->container = new Container();
+        $this->container = $this->container ?? new Container();
         $this->container->bind(ConfigsInterface::class, ConfiguratorInterface::class);
         $this->container->bind(ConfiguratorInterface::class, new ConfigFactory(
             new DirectoryLoader(__DIR__ . '/../config/', $this->container),
@@ -36,7 +38,7 @@ abstract class BaseTest extends TestCase
 
         $this->container->bind(ViewsInterface::class, ViewManager::class);
 
-        (new BootloadManager($this->container))->bootload([TwigBootloader::class]);
+        (new BootloadManager($this->container))->bootload(static::BOOTLOADERS);
     }
 
     protected function getViews(): ViewManager

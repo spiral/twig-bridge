@@ -44,6 +44,7 @@ class TwigEngine implements EngineInterface
 
     /**
      * @param TwigCache|null $cache
+     * @param array          $options
      */
     public function __construct(TwigCache $cache = null, array $options = [])
     {

@@ -24,7 +24,7 @@ class TwigBootloader extends Bootloader
 {
     const BOOT = true;
 
-    const BINDINGS = [
+    const SINGLETONS = [
         TwigEngine::class => [self::class, 'twigEngine']
     ];
 

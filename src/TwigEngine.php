@@ -8,7 +8,6 @@
 
 namespace Spiral\Twig;
 
-
 use Spiral\Twig\Exception\SyntaxException;
 use Spiral\Views\ContextInterface;
 use Spiral\Views\EngineInterface;

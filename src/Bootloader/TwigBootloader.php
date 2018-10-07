@@ -6,19 +6,19 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Bootloader;
+namespace Spiral\Twig\Bootloader;
 
 use Psr\Container\ContainerInterface;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\Patch\AppendPatch;
 use Spiral\Core\Bootloader\Bootloader;
 use Spiral\Core\FactoryInterface;
+use Spiral\Twig\Config\TwigConfig;
 use Spiral\Twig\Extension\ContainerExtension;
 use Spiral\Twig\TwigCache;
 use Spiral\Twig\TwigEngine;
 use Spiral\Views\Config\ViewsConfig;
 use Spiral\Views\Processor\ContextProcessor;
-use Twig\Config\TwigConfig;
 
 class TwigBootloader extends Bootloader
 {

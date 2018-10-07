@@ -8,9 +8,7 @@
 
 namespace Spiral\Twig\Exception;
 
-use Spiral\Core\Exception\RuntimeException;
-
-class ConfigException extends RuntimeException
+class ConfigException extends \RuntimeException
 {
 
 }

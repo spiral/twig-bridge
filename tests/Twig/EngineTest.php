@@ -9,6 +9,7 @@
 namespace Spiral\Twig\Tests\Twig;
 
 use Spiral\Twig\Exception\SyntaxException;
+use Spiral\Views\Context\ValueDependency;
 use Spiral\Views\ViewContext;
 
 class EngineTest extends BaseTest
@@ -31,6 +32,18 @@ class EngineTest extends BaseTest
         $this->assertSame(
             'other test',
             $twig->get('other:test', new ViewContext())->render([])
+        );
+    }
+
+    public function testRenderInContext()
+    {
+        $ctx = new ViewContext();
+        $ctx = $ctx->withDependency(new ValueDependency('name', 'Test'));
+
+        $twig = $this->getTwig();
+        $this->assertSame(
+            'hello Anton of Test',
+            $twig->get('other:ctx', $ctx)->render(['name' => 'Anton'])
         );
     }
 

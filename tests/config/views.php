@@ -2,7 +2,7 @@
 
 return [
     'cache'        => [
-        'enabled'   => true,
+        'enabled'   => false,
         'directory' => __DIR__ . '/../cache'
     ],
     'namespaces'   => [

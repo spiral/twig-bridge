@@ -23,6 +23,9 @@ class TwigConfig extends InjectableConfig
         'processors' => []
     ];
 
+    /**
+     * @return array
+     */
     public function getOptions(): array
     {
         return $this->config['options'];
@@ -65,9 +68,11 @@ class TwigConfig extends InjectableConfig
         if ($item instanceof Autowire) {
             return $item;
         }
+
         if (is_string($item)) {
             return new Autowire($item);
         }
+
         throw new ConfigException("Invalid class reference in view config.");
     }
 }

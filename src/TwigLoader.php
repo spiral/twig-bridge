@@ -56,11 +56,7 @@ class TwigLoader implements TwigLoaderInterface
         // Apply processors
         $source = $this->process($this->loader->load($name), $this->context);
 
-        return new \Twig_Source(
-            $source->getCode(),
-            $source->getName(),
-            $source->getFilename()
-        );
+        return new \Twig_Source($source->getCode(), $source->getName(), $source->getFilename());
     }
 
     /**
@@ -70,12 +66,7 @@ class TwigLoader implements TwigLoaderInterface
     {
         $filename = $this->loader->load($name)->getFilename();
 
-        return sprintf(
-            "%s.%s.%s",
-            $filename,
-            filemtime($filename),
-            $this->context->getID()
-        );
+        return sprintf("%s.%s.%s", $filename, filemtime($filename), $this->context->getID());
     }
 
     /**

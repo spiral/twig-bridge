@@ -9,34 +9,36 @@
 namespace Spiral\Twig;
 
 
-use Spiral\Core\ContainerScope;
 use Spiral\Twig\Exception\SyntaxException;
 use Spiral\Views\ContextInterface;
 use Spiral\Views\EngineInterface;
 use Spiral\Views\Exception\EngineException;
 use Spiral\Views\LoaderInterface;
-use Spiral\Views\LocaleProcessor;
-use Spiral\Views\Processor\ContextProcessor;
+use Spiral\Views\ProcessorInterface;
 use Spiral\Views\ViewInterface;
 use Twig\Environment;
 use Twig\Error\SyntaxError;
+use Twig\Extension\ExtensionInterface;
 use Twig\TemplateWrapper;
 
 class TwigEngine implements EngineInterface
 {
-    const EXTENSION = 'twig';
+    protected const EXTENSION = 'twig';
 
     /** @var bool|null|TwigCache */
     private $cache = false;
 
-    /** @var LoaderInterface */
-    private $loader;
+    /** @var LoaderInterface|null */
+    private $loader = null;
 
-    /** @var Environment */
-    private $twig;
+    /** @var Environment|null */
+    private $environment = null;
 
-    /** @var TwigLoader */
-    private $twigLoader;
+    /** @var ExtensionInterface[] */
+    private $extensions = [];
+
+    /** @var ProcessorInterface[] */
+    private $processors = [];
 
     /**
      * @param TwigCache|null $cache
@@ -47,6 +49,22 @@ class TwigEngine implements EngineInterface
     }
 
     /**
+     * @param ExtensionInterface $extension
+     */
+    public function addExtension(ExtensionInterface $extension)
+    {
+        $this->extensions[] = $extension;
+    }
+
+    /**
+     * @param ProcessorInterface $processor
+     */
+    public function addProcessor(ProcessorInterface $processor)
+    {
+        $this->processors[] = $processor;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function withLoader(LoaderInterface $loader): EngineInterface
@@ -54,17 +72,12 @@ class TwigEngine implements EngineInterface
         $engine = clone $this;
         $engine->loader = $loader->withExtension(static::EXTENSION);
 
-        // todo: add processors
-        $engine->twigLoader = new TwigLoader(
-            $engine->loader,
-            [
-                new ContextProcessor(),
-                ContainerScope::getContainer()->get(LocaleProcessor::class)
-            ]
-        );
+        $engine->environment = new Environment(new TwigLoader($engine->loader, $this->processors));
 
-        $engine->twig = new Environment($engine->twigLoader);
-        $engine->twig->setCache($this->cache);
+        $engine->environment->setCache($this->cache);
+        foreach ($this->extensions as $extension) {
+            $engine->environment->addExtension($extension);
+        }
 
         return $engine;
     }
@@ -82,15 +95,29 @@ class TwigEngine implements EngineInterface
     }
 
     /**
+     * Return environment locked to specific context.
+     *
+     * @param ContextInterface $context
+     * @return Environment
+     */
+    public function getEnvironment(ContextInterface $context): Environment
+    {
+        if (empty($this->environment)) {
+            throw new EngineException("No associated environment found.");
+        }
+
+        $this->environment->getLoader()->setContext($context);
+
+        return $this->environment;
+    }
+
+    /**
      * @inheritdoc
      */
     public function compile(string $path, ContextInterface $context): TemplateWrapper
     {
         try {
-            $this->twigLoader->setContext($context);
-            $path = $this->normalize($path);
-
-            return $this->twig->load($path);
+            return $this->getEnvironment($context)->load($this->normalize($path));
         } catch (SyntaxError $exception) {
             //Let's clarify exception location
             throw SyntaxException::fromTwig($exception);
@@ -102,10 +129,8 @@ class TwigEngine implements EngineInterface
      */
     public function reset(string $path, ContextInterface $context)
     {
-        $this->twigLoader->setContext($context);
         $path = $this->normalize($path);
-
-        $this->cache->delete($path, $this->twig->getTemplateClass($path));
+        $this->cache->delete($path, $this->getEnvironment($context)->getTemplateClass($path));
     }
 
     /**
@@ -120,9 +145,9 @@ class TwigEngine implements EngineInterface
      * @param string $path
      * @return string
      */
-    private function normalize(string $path): string
+    protected function normalize(string $path): string
     {
-        $path = $this->loader->load($path);
+        $path = $this->getLoader()->load($path);
 
         return sprintf("%s:%s", $path->getNamespace(), $path->getName());
     }

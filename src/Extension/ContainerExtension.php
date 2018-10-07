@@ -35,12 +35,4 @@ class ContainerExtension extends AbstractExtension
     {
         return [new TwigFunction('get', [$this->container, 'get'])];
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'get';
-    }
 }

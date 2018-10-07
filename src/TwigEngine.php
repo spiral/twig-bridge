@@ -28,7 +28,7 @@ class TwigEngine implements EngineInterface
     private $cache = false;
 
     /** @var array */
-    protected $options = [];
+    private $options = [];
 
     /** @var LoaderInterface|null */
     private $loader = null;

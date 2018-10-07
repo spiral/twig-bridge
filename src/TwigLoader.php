@@ -70,7 +70,7 @@ class TwigLoader implements TwigLoaderInterface
     {
         $filename = $this->loader->load($name)->getFilename();
 
-        return sprintf("%s.%s.%s", $filename, filemtime($filename), $this->context->getID());
+        return sprintf("%s.%s", $filename, $this->context->getID());
     }
 
     /**

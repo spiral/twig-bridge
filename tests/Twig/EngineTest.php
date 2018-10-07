@@ -21,6 +21,14 @@ class EngineTest extends BaseTest
     public function testRender()
     {
         $twig = $this->getTwig();
-        $this->assertSame('test', $twig->get('test', new ViewContext())->render([]));
+        $this->assertSame(
+            'test',
+            $twig->get('test', new ViewContext())->render([])
+        );
+
+        $this->assertSame(
+            'other test',
+            $twig->get('other:test', new ViewContext())->render([])
+        );
     }
 }

@@ -12,6 +12,7 @@ use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\PatchInterface;
 use Spiral\Files\Files;
 use Spiral\Files\FilesInterface;
+use Spiral\Twig\TwigCache;
 use Spiral\Views\ViewContext;
 
 class CacheTest extends BaseTest
@@ -35,16 +36,16 @@ class CacheTest extends BaseTest
         $this->assertCount(0, $this->files->getFiles(__DIR__ . '/../cache/', '*.php'));
 
         $twig = $this->getTwig();
-        $this->assertSame(
-            'test',
-            $twig->get('test', new ViewContext())->render([])
-        );
-
+        $this->assertSame('test', $twig->get('test', new ViewContext())->render([]));
         $this->assertCount(1, $this->files->getFiles(__DIR__ . '/../cache/', '*.php'));
 
-        $twig->reset('test', new ViewContext());
 
+        $twig->reset('test', new ViewContext());
         $this->assertCount(0, $this->files->getFiles(__DIR__ . '/../cache/', '*.php'));
+
+        $cache = new TwigCache(__DIR__ . '/../cache/');
+        $this->assertNotSame(0, $cache->getTimestamp(__DIR__ . '/../cache/' . '.empty'));
+        $this->assertSame(0, $cache->getTimestamp(__DIR__ . '/../cache/' . '.other'));
     }
 }
 

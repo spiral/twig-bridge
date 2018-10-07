@@ -27,6 +27,9 @@ class TwigEngine implements EngineInterface
     /** @var bool|null|TwigCache */
     private $cache = false;
 
+    /** @var array */
+    protected $options = [];
+
     /** @var LoaderInterface|null */
     private $loader = null;
 
@@ -42,9 +45,10 @@ class TwigEngine implements EngineInterface
     /**
      * @param TwigCache|null $cache
      */
-    public function __construct(TwigCache $cache = null)
+    public function __construct(TwigCache $cache = null, array $options = [])
     {
         $this->cache = $cache ?? false;
+        $this->options = $options;
     }
 
     /**
@@ -71,7 +75,10 @@ class TwigEngine implements EngineInterface
         $engine = clone $this;
         $engine->loader = $loader->withExtension(static::EXTENSION);
 
-        $engine->environment = new Environment(new TwigLoader($engine->loader, $this->processors));
+        $engine->environment = new Environment(
+            new TwigLoader($engine->loader, $this->processors),
+            $this->options
+        );
 
         $engine->environment->setCache($this->cache);
         foreach ($this->extensions as $extension) {

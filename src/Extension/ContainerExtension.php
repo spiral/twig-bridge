@@ -5,6 +5,7 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Twig\Extension;
 
@@ -15,7 +16,7 @@ use Twig\TwigFunction;
 /**
  * Provides access to container bindings using `get` alias.
  */
-class ContainerExtension extends AbstractExtension
+final class ContainerExtension extends AbstractExtension
 {
     /** @var ContainerInterface */
     protected $container = null;

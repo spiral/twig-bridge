@@ -5,14 +5,18 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Twig\Bootloader;
 
 use Psr\Container\ContainerInterface;
+use Spiral\Boot\Bootloader\Bootloader;
+use Spiral\Boot\Bootloader\DependedInterface;
+use Spiral\Bootloader\Views\ViewsBootloader;
 use Spiral\Config\ConfiguratorInterface;
-use Spiral\Config\Patch\AppendPatch;
-use Spiral\Core\Bootloader\Bootloader;
+use Spiral\Config\Patch\Append;
 use Spiral\Core\FactoryInterface;
+use Spiral\Translator\Views\LocaleProcessor;
 use Spiral\Twig\Config\TwigConfig;
 use Spiral\Twig\Extension\ContainerExtension;
 use Spiral\Twig\TwigCache;
@@ -20,37 +24,73 @@ use Spiral\Twig\TwigEngine;
 use Spiral\Views\Config\ViewsConfig;
 use Spiral\Views\Processor\ContextProcessor;
 
-class TwigBootloader extends Bootloader
+final class TwigBootloader extends Bootloader implements DependedInterface
 {
-    const BOOT = true;
-
     const SINGLETONS = [
         TwigEngine::class => [self::class, 'twigEngine']
     ];
 
+    /** @var ConfiguratorInterface */
+    private $config;
+
     /**
-     * @param ConfiguratorInterface $configurator
-     * @param ContainerInterface    $container
+     * @param ConfiguratorInterface $config
      */
-    public function boot(ConfiguratorInterface $configurator, ContainerInterface $container)
+    public function __construct(ConfiguratorInterface $config)
     {
-        $configurator->setDefaults('views/twig', [
+        $this->config = $config;
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @param ViewsBootloader    $views
+     */
+    public function boot(ContainerInterface $container, ViewsBootloader $views)
+    {
+        $this->config->setDefaults('views/twig', [
             'options'    => [],
             'extensions' => [ContainerExtension::class],
             'processors' => [ContextProcessor::class]
         ]);
 
-        $configurator->modify(
-            'views',
-            new AppendPatch('engines', null, TwigEngine::class)
-        );
+        $views->addEngine(TwigEngine::class);
 
-        if ($container->has('Spiral\Views\LocaleProcessor')) {
-            $configurator->modify(
-                'views/twig',
-                new AppendPatch('processors', null, 'Spiral\Views\LocaleProcessor')
-            );
+        if ($container->has(LocaleProcessor::class)) {
+            $this->addProcessor(LocaleProcessor::class);
         }
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function setOption(string $key, $value)
+    {
+        $this->config->modify('views/twig', new Append('options', $key, $value));
+    }
+
+    /**
+     * @param mixed $extension
+     */
+    public function addExtension($extension)
+    {
+        $this->config->modify('views/twig', new Append('extensions', null, $extension));
+    }
+
+    /**
+     * @param mixed $processor
+     */
+    public function addProcessor($processor)
+    {
+        $this->config->modify('views/twig', new Append('processors', null, $processor));
+    }
+
+    /**
+     * @return array
+     */
+    public function defineDependencies(): array
+    {
+        return [ViewsBootloader::class];
     }
 
     /**

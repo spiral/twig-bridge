@@ -5,6 +5,7 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Twig;
 
@@ -20,7 +21,7 @@ use Twig\Error\SyntaxError;
 use Twig\Extension\ExtensionInterface;
 use Twig\TemplateWrapper;
 
-class TwigEngine implements EngineInterface
+final class TwigEngine implements EngineInterface
 {
     protected const EXTENSION = 'twig';
 

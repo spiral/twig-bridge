@@ -5,6 +5,7 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Twig;
 
@@ -12,7 +13,7 @@ use Spiral\Files\Files;
 use Spiral\Files\FilesInterface;
 use Twig\Cache\CacheInterface as TwigCacheInterface;
 
-class TwigCache implements TwigCacheInterface
+final class TwigCache implements TwigCacheInterface
 {
     /** @var string */
     private $directory;

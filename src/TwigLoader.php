@@ -5,6 +5,7 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Twig;
 
@@ -13,8 +14,9 @@ use Spiral\Views\Exception\EngineException;
 use Spiral\Views\LoaderInterface;
 use Spiral\Views\Traits\ProcessorTrait;
 use Twig\Loader\LoaderInterface as TwigLoaderInterface;
+use Twig\Source;
 
-class TwigLoader implements TwigLoaderInterface
+final class TwigLoader implements TwigLoaderInterface
 {
     use ProcessorTrait;
 
@@ -56,7 +58,7 @@ class TwigLoader implements TwigLoaderInterface
         // Apply processors
         $source = $this->process($this->loader->load($name), $this->context);
 
-        return new \Twig_Source(
+        return new Source(
             $source->getCode(),
             sprintf("%s:%s", $source->getNamespace(), $source->getName()),
             $source->getFilename()

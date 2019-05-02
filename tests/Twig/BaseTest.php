@@ -9,10 +9,14 @@
 namespace Spiral\Twig\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
-use Spiral\Config\ConfigFactory;
+use Spiral\Boot\BootloadManager;
+use Spiral\Boot\Directories;
+use Spiral\Boot\DirectoriesInterface;
+use Spiral\Boot\Environment;
+use Spiral\Boot\EnvironmentInterface;
+use Spiral\Config\ConfigManager;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\Loader\DirectoryLoader;
-use Spiral\Core\BootloadManager;
 use Spiral\Core\ConfigsInterface;
 use Spiral\Core\Container;
 use Spiral\Twig\Bootloader\TwigBootloader;
@@ -30,8 +34,14 @@ abstract class BaseTest extends TestCase
     public function setUp()
     {
         $this->container = $this->container ?? new Container();
+        $this->container->bind(EnvironmentInterface::class, new Environment());
+        $this->container->bind(DirectoriesInterface::class, new Directories([
+            'app'   => __DIR__ . '/../fixtures',
+            'cache' => __DIR__ . '/../cache'
+        ]));
+
         $this->container->bind(ConfigsInterface::class, ConfiguratorInterface::class);
-        $this->container->bind(ConfiguratorInterface::class, new ConfigFactory(
+        $this->container->bind(ConfiguratorInterface::class, new ConfigManager(
             new DirectoryLoader(__DIR__ . '/../config/', $this->container),
             true
         ));

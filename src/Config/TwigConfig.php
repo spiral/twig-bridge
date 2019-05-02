@@ -5,6 +5,7 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Twig\Config;
 
@@ -12,7 +13,7 @@ use Spiral\Core\Container\Autowire;
 use Spiral\Core\InjectableConfig;
 use Spiral\Twig\Exception\ConfigException;
 
-class TwigConfig extends InjectableConfig
+final class TwigConfig extends InjectableConfig
 {
     const CONFIG = "views/twig";
 

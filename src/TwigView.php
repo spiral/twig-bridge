@@ -5,13 +5,14 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Twig;
 
 use Spiral\Views\ViewInterface;
 use Twig\TemplateWrapper;
 
-class TwigView implements ViewInterface
+final class TwigView implements ViewInterface
 {
     /** @var TemplateWrapper */
     private $wrapper;

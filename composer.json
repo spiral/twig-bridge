@@ -16,7 +16,6 @@
     "spiral/framework": "2.0.x-dev"
   },
   "require-dev": {
-    "spiral/config": "^1.1",
     "phpunit/phpunit": "~7.0",
     "mockery/mockery": "^1.1"
   },

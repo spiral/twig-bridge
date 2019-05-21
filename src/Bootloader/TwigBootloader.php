@@ -15,6 +15,7 @@ use Spiral\Boot\Bootloader\DependedInterface;
 use Spiral\Bootloader\Views\ViewsBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\Patch\Append;
+use Spiral\Core\Container\Autowire;
 use Spiral\Core\FactoryInterface;
 use Spiral\Translator\Views\LocaleProcessor;
 use Spiral\Twig\Config\TwigConfig;
@@ -90,7 +91,9 @@ final class TwigBootloader extends Bootloader implements DependedInterface
      */
     public function defineDependencies(): array
     {
-        return [ViewsBootloader::class];
+        return [
+            ViewsBootloader::class
+        ];
     }
 
     /**
@@ -109,11 +112,19 @@ final class TwigBootloader extends Bootloader implements DependedInterface
         );
 
         foreach ($config->getExtensions() as $extension) {
-            $engine->addExtension($extension->resolve($factory));
+            if ($extension instanceof Autowire) {
+                $extension = $extension->resolve($factory);
+            }
+
+            $engine->addExtension($extension);
         }
 
         foreach ($config->getProcessors() as $processor) {
-            $engine->addProcessor($processor->resolve($factory));
+            if ($processor instanceof Autowire) {
+                $processor = $processor->resolve($factory);
+            }
+
+            $engine->addProcessor($processor);
         }
 
         return $engine;

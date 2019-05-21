@@ -39,6 +39,11 @@ final class TwigConfig extends InjectableConfig
     {
         $extensions = [];
         foreach ($this->config['extensions'] as $extension) {
+            if (is_object($extension) && !$extension instanceof Autowire) {
+                $extensions[] = $extension;
+                continue;
+            }
+
             $extensions[] = $this->wire($extension);
         }
 
@@ -52,6 +57,11 @@ final class TwigConfig extends InjectableConfig
     {
         $processors = [];
         foreach ($this->config['processors'] as $processor) {
+            if (is_object($processor) && !$processor instanceof Autowire) {
+                $processors[] = $processor;
+                continue;
+            }
+
             $processors[] = $this->wire($processor);
         }
 

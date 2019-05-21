@@ -48,16 +48,4 @@ class ConfigTest extends BaseTest
             $config->getProcessors()[0]->resolve($this->container)
         );
     }
-
-    /**
-     * @expectedException \Spiral\Twig\Exception\ConfigException
-     */
-    public function testWireConfigException()
-    {
-        $config = new TwigConfig([
-            'processors' => [$this]
-        ]);
-
-        $config->getProcessors();
-    }
 }

@@ -138,7 +138,10 @@ final class TwigEngine implements EngineInterface
     public function reset(string $path, ContextInterface $context)
     {
         $path = $this->normalize($path);
-        $this->cache->delete($path, $this->getEnvironment($context)->getTemplateClass($path));
+
+        if ($this->cache !== false) {
+            $this->cache->delete($path, $this->getEnvironment($context)->getTemplateClass($path));
+        }
     }
 
     /**

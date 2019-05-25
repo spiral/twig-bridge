@@ -35,4 +35,11 @@ class ExtensionTest extends BaseTest
             $this->getTwig()->get('get', new ViewContext())->render([])
         );
     }
+    //TODO can also be set globally by calling setTimezone():
+//    public function testTimeZoneExtension()
+//    {
+//        $this->getTwig()->get('extensions:timezone',new ViewContext())->render(['test_date' => '00:00']);
+//
+//    }
+
 }

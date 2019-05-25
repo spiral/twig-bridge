@@ -11,6 +11,7 @@ namespace Spiral\Twig\Tests\Twig;
 use Spiral\Core\Container\Autowire;
 use Spiral\Twig\Config\TwigConfig;
 use Spiral\Views\Processor\ContextProcessor;
+use Twig\Extension\CoreExtension;
 
 class ConfigTest extends BaseTest
 {
@@ -32,6 +33,18 @@ class ConfigTest extends BaseTest
         $this->assertInstanceOf(
             ContextProcessor::class,
             $config->getProcessors()[0]->resolve($this->container)
+        );
+    }
+
+    public function testWireConfigExtensions()
+    {
+        $config = new TwigConfig([
+            'extensions' => [CoreExtension::class]
+        ]);
+
+        $this->assertInstanceOf(
+            CoreExtension::class,
+            $config->getExtensions()[0]->resolve($this->container)
         );
     }
 

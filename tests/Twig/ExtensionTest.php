@@ -9,6 +9,9 @@
 namespace Spiral\Twig\Tests\Twig;
 
 use Spiral\Views\ViewContext;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\CoreExtension;
+use Twig\TwigFilter;
 
 class ExtensionTest extends BaseTest
 {
@@ -35,11 +38,43 @@ class ExtensionTest extends BaseTest
             $this->getTwig()->get('get', new ViewContext())->render([])
         );
     }
-    //TODO can also be set globally by calling setTimezone():
-//    public function testTimeZoneExtension()
-//    {
-//        $this->getTwig()->get('extensions:timezone',new ViewContext())->render(['test_date' => '00:00']);
-//
-//    }
 
+    public function testGlobalExtension()
+    {
+        $twig = $this->getTwig();
+        $env = $this->getTwig()->getEnvironment(new ViewContext());
+        $extension = $env->getExtension(CoreExtension::class);
+        $extension->setTimezone('Europe/Paris');
+
+        $this->assertSame('02:00 CEST',
+            $twig->get('extensions:timezone', new ViewContext())
+                ->render(['test_date' => new \DateTime('00:00')])
+        );
+    }
+
+    public function testCustomExtension()
+    {
+        $twig = $this->getTwig();
+        $env = $this->getTwig()->getEnvironment(new ViewContext());
+        $env->addExtension(new ExtensionPrefix());
+
+        $this->assertSame('hellotest_prefix',
+            $twig->get('extensions:prefix', new ViewContext())->render(['test_word' => 'hello'])
+        );
+    }
+}
+
+final class ExtensionPrefix extends AbstractExtension
+{
+    public function getFilters()
+    {
+        return [
+            new TwigFilter('test_prefix', [$this, 'addPrefix']),
+        ];
+    }
+
+    public function addPrefix($value)
+    {
+        return $value . 'test_prefix';
+    }
 }

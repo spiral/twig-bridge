@@ -28,6 +28,10 @@ abstract class BaseTest extends TestCase
 {
     /** @var Container */
     protected $container;
+    /**
+     * @var BootloadManager
+     */
+    protected $app;
 
     const BOOTLOADERS = [TwigBootloader::class];
 
@@ -48,7 +52,8 @@ abstract class BaseTest extends TestCase
 
         $this->container->bind(ViewsInterface::class, ViewManager::class);
 
-        (new BootloadManager($this->container))->bootload(static::BOOTLOADERS);
+        $this->app = new BootloadManager($this->container);
+        $this->app->bootload(static::BOOTLOADERS);
     }
 
     protected function getViews(): ViewManager

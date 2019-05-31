@@ -55,8 +55,8 @@ class ExtensionTest extends BaseTest
     public function testCustomExtension()
     {
         $twig = $this->getTwig();
-        $env = $this->getTwig()->getEnvironment(new ViewContext());
-        $env->addExtension(new ExtensionPrefix());
+        $env = $twig->getEnvironment(new ViewContext());
+        $env->addExtension(new PrefixExtension());
 
         $this->assertSame('hellotest_prefix',
             $twig->get('extensions:prefix', new ViewContext())->render(['test_word' => 'hello'])
@@ -64,7 +64,7 @@ class ExtensionTest extends BaseTest
     }
 }
 
-final class ExtensionPrefix extends AbstractExtension
+final class PrefixExtension extends AbstractExtension
 {
     public function getFilters()
     {

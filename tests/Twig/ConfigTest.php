@@ -9,8 +9,10 @@
 namespace Spiral\Twig\Tests\Twig;
 
 use Spiral\Core\Container\Autowire;
+use Spiral\Twig\Bootloader\TwigBootloader;
 use Spiral\Twig\Config\TwigConfig;
 use Spiral\Views\Processor\ContextProcessor;
+use Twig\Extension\CoreExtension;
 
 class ConfigTest extends BaseTest
 {
@@ -35,6 +37,18 @@ class ConfigTest extends BaseTest
         );
     }
 
+    public function testWireConfigExtensions()
+    {
+        $config = new TwigConfig([
+            'extensions' => [CoreExtension::class]
+        ]);
+
+        $this->assertInstanceOf(
+            CoreExtension::class,
+            $config->getExtensions()[0]->resolve($this->container)
+        );
+    }
+
     public function testWireConfig()
     {
         $config = new TwigConfig([
@@ -47,5 +61,15 @@ class ConfigTest extends BaseTest
             ContextProcessor::class,
             $config->getProcessors()[0]->resolve($this->container)
         );
+    }
+
+    public function testDebugConfig()
+    {
+        $loader = $this->container->get(TwigBootloader::class);
+        $loader->setOption('debug', true);
+
+        $config = $this->container->get(TwigConfig::class);
+
+        $this->assertEquals(true, $config->getOptions()['debug']);
     }
 }

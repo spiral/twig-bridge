@@ -47,6 +47,29 @@ class EngineTest extends BaseTest
         );
     }
 
+    /**
+     * @expectedException Twig\Error\RuntimeError
+     */
+    public function testRenderBlockException()
+    {
+        $ctx = new ViewContext();
+
+        $twig = $this->getTwig();
+        $twig->get('other:block', $ctx)->renderBlock('not_block');
+    }
+
+    public function testRenderBlock()
+    {
+        $ctx = new ViewContext();
+        $message = 'hello test';
+        $twig = $this->getTwig();
+
+        $this->assertSame(
+            $message,
+            $twig->get('other:block', $ctx)->renderBlock('test_block', ['message' => $message])
+        );
+    }
+
     public function testSyntaxException()
     {
         $twig = $this->getTwig();

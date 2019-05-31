@@ -32,4 +32,16 @@ final class TwigView implements ViewInterface
     {
         return $this->wrapper->render($data);
     }
+
+    /**
+     * @param string $name
+     * @param array  $context
+     *
+     * @return string
+     * @throws \Throwable
+     */
+    public function renderBlock(string $name, array $context = []): string
+    {
+        return $this->wrapper->renderBlock($name, $context);
+    }
 }

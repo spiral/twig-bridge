@@ -12,7 +12,6 @@ use Spiral\Core\Container\Autowire;
 use Spiral\Twig\Bootloader\TwigBootloader;
 use Spiral\Twig\Config\TwigConfig;
 use Spiral\Views\Processor\ContextProcessor;
-use Spiral\Views\ViewContext;
 use Twig\Extension\CoreExtension;
 
 class ConfigTest extends BaseTest

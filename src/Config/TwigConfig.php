@@ -74,7 +74,7 @@ final class TwigConfig extends InjectableConfig
      *
      * @throws ConfigException
      */
-    public function wire($item): Autowire
+    private function wire($item): Autowire
     {
         if ($item instanceof Autowire) {
             return $item;

@@ -87,8 +87,8 @@ final class TwigEngine implements EngineInterface
      */
     public function getLoader(): LoaderInterface
     {
-        if (empty($this->loader)) {
-            throw new EngineException("No associated loader found.");
+        if ($this->loader === null) {
+            throw new EngineException("No associated loader found");
         }
 
         return $this->loader;
@@ -102,7 +102,7 @@ final class TwigEngine implements EngineInterface
      */
     public function getEnvironment(ContextInterface $context): Environment
     {
-        if (empty($this->environment)) {
+        if ($this->environment === null) {
             throw new EngineException("No associated environment found.");
         }
 

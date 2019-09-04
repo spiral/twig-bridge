@@ -70,6 +70,10 @@ final class TwigLoader implements TwigLoaderInterface
      */
     public function getCacheKey($name)
     {
+        if (empty($this->context)) {
+            throw new EngineException("Unable to use TwigLoader without given context.");
+        }
+
         $filename = $this->loader->load($name)->getFilename();
 
         return sprintf("%s.%s", $filename, $this->context->getID());

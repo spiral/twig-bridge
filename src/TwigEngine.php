@@ -46,27 +46,19 @@ final class TwigEngine implements EngineInterface
     /**
      * @param TwigCache|null $cache
      * @param array          $options
+     * @param array          $extensions
+     * @param array          $processors
      */
-    public function __construct(TwigCache $cache = null, array $options = [])
-    {
+    public function __construct(
+        TwigCache $cache = null,
+        array $options = [],
+        array $extensions = [],
+        array $processors = []
+    ) {
         $this->cache = $cache ?? false;
         $this->options = $options;
-    }
-
-    /**
-     * @param ExtensionInterface $extension
-     */
-    public function addExtension(ExtensionInterface $extension)
-    {
-        $this->extensions[] = $extension;
-    }
-
-    /**
-     * @param ProcessorInterface $processor
-     */
-    public function addProcessor(ProcessorInterface $processor)
-    {
-        $this->processors[] = $processor;
+        $this->extensions = $extensions;
+        $this->processors = $processors;
     }
 
     /**

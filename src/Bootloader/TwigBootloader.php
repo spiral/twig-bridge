@@ -107,26 +107,29 @@ final class TwigBootloader extends Bootloader implements DependedInterface
         ViewsConfig $viewConfig,
         FactoryInterface $factory
     ): TwigEngine {
-        $engine = new TwigEngine(
-            $viewConfig->cacheEnabled() ? new TwigCache($viewConfig->cacheDirectory()) : null
-        );
-
+        $extensions = [];
         foreach ($config->getExtensions() as $extension) {
             if ($extension instanceof Autowire) {
                 $extension = $extension->resolve($factory);
             }
 
-            $engine->addExtension($extension);
+            $extensions[] = $extension;
         }
 
+        $processors = [];
         foreach ($config->getProcessors() as $processor) {
             if ($processor instanceof Autowire) {
                 $processor = $processor->resolve($factory);
             }
 
-            $engine->addProcessor($processor);
+            $processors[] = $processor;
         }
 
-        return $engine;
+        $cache = null;
+        if ($viewConfig->isCacheEnabled()) {
+            $cache = new TwigCache($viewConfig->getCacheDirectory());
+        }
+
+        return new TwigEngine($cache, $config->getOptions(), $extensions, $processors);
     }
 }

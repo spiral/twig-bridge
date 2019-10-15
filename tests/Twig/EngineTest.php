@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -14,14 +17,14 @@ use Spiral\Views\ViewContext;
 
 class EngineTest extends BaseTest
 {
-    public function testList()
+    public function testList(): void
     {
         $views = $this->getTwig()->getLoader()->list();
         $this->assertContains('default:test', $views);
         $this->assertContains('other:test', $views);
     }
 
-    public function testRender()
+    public function testRender(): void
     {
         $twig = $this->getTwig();
         $this->assertSame(
@@ -35,7 +38,7 @@ class EngineTest extends BaseTest
         );
     }
 
-    public function testRenderInContext()
+    public function testRenderInContext(): void
     {
         $ctx = new ViewContext();
         $ctx = $ctx->withDependency(new ValueDependency('name', 'Test'));
@@ -50,7 +53,7 @@ class EngineTest extends BaseTest
     /**
      * @expectedException Twig\Error\RuntimeError
      */
-    public function testRenderBlockException()
+    public function testRenderBlockException(): void
     {
         $ctx = new ViewContext();
 
@@ -58,7 +61,7 @@ class EngineTest extends BaseTest
         $twig->get('other:block', $ctx)->renderBlock('not_block');
     }
 
-    public function testRenderBlock()
+    public function testRenderBlock(): void
     {
         $ctx = new ViewContext();
         $message = 'hello test';
@@ -70,14 +73,14 @@ class EngineTest extends BaseTest
         );
     }
 
-    public function testSyntaxException()
+    public function testSyntaxException(): void
     {
         $twig = $this->getTwig();
         try {
             $twig->compile('other:error', new ViewContext());
         } catch (SyntaxException $e) {
-            $this->assertContains("end of template", $e->getMessage());
-            $this->assertContains("error.twig", $e->getFile());
+            $this->assertContains('end of template', $e->getMessage());
+            $this->assertContains('error.twig', $e->getFile());
             $this->assertSame(2, $e->getLine());
         }
     }

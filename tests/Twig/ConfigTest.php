@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -16,7 +19,7 @@ use Twig\Extension\CoreExtension;
 
 class ConfigTest extends BaseTest
 {
-    public function testOptions()
+    public function testOptions(): void
     {
         $config = new TwigConfig([
             'options' => ['option' => 'value']
@@ -25,7 +28,7 @@ class ConfigTest extends BaseTest
         $this->assertSame(['option' => 'value'], $config->getOptions());
     }
 
-    public function testWireConfigString()
+    public function testWireConfigString(): void
     {
         $config = new TwigConfig([
             'processors' => [ContextProcessor::class]
@@ -37,7 +40,7 @@ class ConfigTest extends BaseTest
         );
     }
 
-    public function testWireConfigExtensions()
+    public function testWireConfigExtensions(): void
     {
         $config = new TwigConfig([
             'extensions' => [CoreExtension::class]
@@ -49,7 +52,7 @@ class ConfigTest extends BaseTest
         );
     }
 
-    public function testWireConfig()
+    public function testWireConfig(): void
     {
         $config = new TwigConfig([
             'processors' => [
@@ -63,7 +66,7 @@ class ConfigTest extends BaseTest
         );
     }
 
-    public function testDebugConfig()
+    public function testDebugConfig(): void
     {
         $loader = $this->container->get(TwigBootloader::class);
         $loader->setOption('debug', true);

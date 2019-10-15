@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -26,6 +29,7 @@ use Spiral\Views\ViewsInterface;
 
 abstract class BaseTest extends TestCase
 {
+    public const BOOTLOADERS = [TwigBootloader::class];
     /** @var Container */
     protected $container;
     /**
@@ -33,9 +37,7 @@ abstract class BaseTest extends TestCase
      */
     protected $app;
 
-    const BOOTLOADERS = [TwigBootloader::class];
-
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->container ?? new Container();
         $this->container->bind(EnvironmentInterface::class, new Environment());

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -11,7 +12,6 @@ namespace Spiral\Twig\Bootloader;
 
 use Psr\Container\ContainerInterface;
 use Spiral\Boot\Bootloader\Bootloader;
-use Spiral\Boot\Bootloader\DependedInterface;
 use Spiral\Bootloader\Views\ViewsBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\Patch\Append;
@@ -25,9 +25,13 @@ use Spiral\Twig\TwigEngine;
 use Spiral\Views\Config\ViewsConfig;
 use Spiral\Views\Processor\ContextProcessor;
 
-final class TwigBootloader extends Bootloader implements DependedInterface
+final class TwigBootloader extends Bootloader
 {
-    const SINGLETONS = [
+    protected const DEPENDENCIES = [
+        ViewsBootloader::class
+    ];
+
+    protected const SINGLETONS = [
         TwigEngine::class => [self::class, 'twigEngine']
     ];
 
@@ -46,7 +50,7 @@ final class TwigBootloader extends Bootloader implements DependedInterface
      * @param ContainerInterface $container
      * @param ViewsBootloader    $views
      */
-    public function boot(ContainerInterface $container, ViewsBootloader $views)
+    public function boot(ContainerInterface $container, ViewsBootloader $views): void
     {
         $this->config->setDefaults('views/twig', [
             'options'    => [],
@@ -65,7 +69,7 @@ final class TwigBootloader extends Bootloader implements DependedInterface
      * @param string $key
      * @param mixed  $value
      */
-    public function setOption(string $key, $value)
+    public function setOption(string $key, $value): void
     {
         $this->config->modify('views/twig', new Append('options', $key, $value));
     }
@@ -73,7 +77,7 @@ final class TwigBootloader extends Bootloader implements DependedInterface
     /**
      * @param mixed $extension
      */
-    public function addExtension($extension)
+    public function addExtension($extension): void
     {
         $this->config->modify('views/twig', new Append('extensions', null, $extension));
     }
@@ -81,19 +85,9 @@ final class TwigBootloader extends Bootloader implements DependedInterface
     /**
      * @param mixed $processor
      */
-    public function addProcessor($processor)
+    public function addProcessor($processor): void
     {
         $this->config->modify('views/twig', new Append('processors', null, $processor));
-    }
-
-    /**
-     * @return array
-     */
-    public function defineDependencies(): array
-    {
-        return [
-            ViewsBootloader::class
-        ];
     }
 
     /**
@@ -102,7 +96,7 @@ final class TwigBootloader extends Bootloader implements DependedInterface
      * @param FactoryInterface $factory
      * @return TwigEngine
      */
-    protected function twigEngine(
+    private function twigEngine(
         TwigConfig $config,
         ViewsConfig $viewConfig,
         FactoryInterface $factory

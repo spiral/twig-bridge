@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -41,7 +42,7 @@ final class TwigLoader implements TwigLoaderInterface
      *
      * @param ContextInterface $context
      */
-    public function setContext(ContextInterface $context)
+    public function setContext(ContextInterface $context): void
     {
         $this->context = $context;
     }
@@ -52,7 +53,7 @@ final class TwigLoader implements TwigLoaderInterface
     public function getSourceContext($name)
     {
         if (empty($this->context)) {
-            throw new EngineException("Unable to use TwigLoader without given context.");
+            throw new EngineException('Unable to use TwigLoader without given context.');
         }
 
         // Apply processors
@@ -60,7 +61,7 @@ final class TwigLoader implements TwigLoaderInterface
 
         return new Source(
             $source->getCode(),
-            sprintf("%s:%s", $source->getNamespace(), $source->getName()),
+            sprintf('%s:%s', $source->getNamespace(), $source->getName()),
             $source->getFilename()
         );
     }
@@ -71,12 +72,12 @@ final class TwigLoader implements TwigLoaderInterface
     public function getCacheKey($name)
     {
         if (empty($this->context)) {
-            throw new EngineException("Unable to use TwigLoader without given context.");
+            throw new EngineException('Unable to use TwigLoader without given context.');
         }
 
         $filename = $this->loader->load($name)->getFilename();
 
-        return sprintf("%s.%s", $filename, $this->context->getID());
+        return sprintf('%s.%s', $filename, $this->context->getID());
     }
 
     /**

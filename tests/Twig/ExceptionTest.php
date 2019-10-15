@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -19,7 +22,7 @@ class ExceptionTest extends BaseTest
     /**
      * @expectedException \Spiral\Views\Exception\EngineException
      */
-    public function testNoLoader()
+    public function testNoLoader(): void
     {
         $twig = new TwigEngine(null, []);
         $twig->getLoader();
@@ -28,7 +31,7 @@ class ExceptionTest extends BaseTest
     /**
      * @expectedException \Spiral\Views\Exception\EngineException
      */
-    public function testNoEnvironment()
+    public function testNoEnvironment(): void
     {
         $twig = new TwigEngine(null, []);
         $twig->getEnvironment(new ViewContext());
@@ -37,7 +40,7 @@ class ExceptionTest extends BaseTest
     /**
      * @expectedException \Spiral\Views\Exception\EngineException
      */
-    public function testLoaderNoContext()
+    public function testLoaderNoContext(): void
     {
         $l = new ViewLoader([]);
 

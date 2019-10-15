@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -88,7 +89,7 @@ final class TwigEngine implements EngineInterface
     public function getLoader(): LoaderInterface
     {
         if ($this->loader === null) {
-            throw new EngineException("No associated loader found");
+            throw new EngineException('No associated loader found');
         }
 
         return $this->loader;
@@ -103,7 +104,7 @@ final class TwigEngine implements EngineInterface
     public function getEnvironment(ContextInterface $context): Environment
     {
         if ($this->environment === null) {
-            throw new EngineException("No associated environment found.");
+            throw new EngineException('No associated environment found.');
         }
 
         $this->environment->getLoader()->setContext($context);
@@ -127,7 +128,7 @@ final class TwigEngine implements EngineInterface
     /**
      * @inheritdoc
      */
-    public function reset(string $path, ContextInterface $context)
+    public function reset(string $path, ContextInterface $context): void
     {
         $path = $this->normalize($path);
 
@@ -152,6 +153,6 @@ final class TwigEngine implements EngineInterface
     {
         $path = $this->getLoader()->load($path);
 
-        return sprintf("%s:%s", $path->getNamespace(), $path->getName());
+        return sprintf('%s:%s', $path->getNamespace(), $path->getName());
     }
 }

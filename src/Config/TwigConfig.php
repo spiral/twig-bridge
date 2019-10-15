@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -15,7 +16,7 @@ use Spiral\Twig\Exception\ConfigException;
 
 final class TwigConfig extends InjectableConfig
 {
-    const CONFIG = "views/twig";
+    public const CONFIG = 'views/twig';
 
     /** @var array */
     protected $config = [
@@ -84,6 +85,6 @@ final class TwigConfig extends InjectableConfig
             return new Autowire($item);
         }
 
-        throw new ConfigException("Invalid class reference in view config.");
+        throw new ConfigException('Invalid class reference in view config.');
     }
 }

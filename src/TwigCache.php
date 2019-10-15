@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -36,10 +37,10 @@ final class TwigCache implements TwigCacheInterface
      */
     public function generateKey($name, $className)
     {
-        $prefix = sprintf("%s:%s", $name, $className);
+        $prefix = sprintf('%s:%s', $name, $className);
         $prefix = preg_replace('/([^A-Za-z0-9]|\-)+/', '-', $prefix);
 
-        return sprintf("%s/%s.php", rtrim($this->directory, '/') . '/', $prefix);
+        return sprintf('%s/%s.php', rtrim($this->directory, '/') . '/', $prefix);
     }
 
     /**
@@ -48,7 +49,7 @@ final class TwigCache implements TwigCacheInterface
      * @param string $name
      * @param string $className
      */
-    public function delete($name, $className)
+    public function delete($name, $className): void
     {
         try {
             $this->files->delete($this->generateKey($name, $className));
@@ -59,7 +60,7 @@ final class TwigCache implements TwigCacheInterface
     /**
      * {@inheritdoc}
      */
-    public function write($key, $content)
+    public function write($key, $content): void
     {
         $this->files->write($key, $content, FilesInterface::RUNTIME, true);
     }
@@ -67,7 +68,7 @@ final class TwigCache implements TwigCacheInterface
     /**
      * {@inheritdoc}
      */
-    public function load($key)
+    public function load($key): void
     {
         if ($this->files->exists($key)) {
             include_once $key;

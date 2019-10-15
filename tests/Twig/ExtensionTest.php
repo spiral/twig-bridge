@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -22,9 +25,9 @@ class ExtensionTest extends BaseTest
         return $this->x;
     }
 
-    public function testContainer()
+    public function testContainer(): void
     {
-        $this->container->bind("test", $this);
+        $this->container->bind('test', $this);
 
         $this->x = 'XXX';
         $this->assertSame(
@@ -39,42 +42,29 @@ class ExtensionTest extends BaseTest
         );
     }
 
-    public function testGlobalExtension()
+    public function testGlobalExtension(): void
     {
         $twig = $this->getTwig();
         $env = $this->getTwig()->getEnvironment(new ViewContext());
         $extension = $env->getExtension(CoreExtension::class);
         $extension->setTimezone('Europe/Paris');
 
-        $this->assertSame('02:00 CEST',
+        $this->assertSame(
+            '02:00 CEST',
             $twig->get('extensions:timezone', new ViewContext())
                 ->render(['test_date' => new \DateTime('00:00')])
         );
     }
 
-    public function testCustomExtension()
+    public function testCustomExtension(): void
     {
         $twig = $this->getTwig();
         $env = $twig->getEnvironment(new ViewContext());
         $env->addExtension(new PrefixExtension());
 
-        $this->assertSame('hellotest_prefix',
+        $this->assertSame(
+            'hellotest_prefix',
             $twig->get('extensions:prefix', new ViewContext())->render(['test_word' => 'hello'])
         );
-    }
-}
-
-final class PrefixExtension extends AbstractExtension
-{
-    public function getFilters()
-    {
-        return [
-            new TwigFilter('test_prefix', [$this, 'addPrefix']),
-        ];
-    }
-
-    public function addPrefix($value)
-    {
-        return $value . 'test_prefix';
     }
 }

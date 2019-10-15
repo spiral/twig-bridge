@@ -20,7 +20,7 @@ class SyntaxException extends CompileException
      */
     public static function fromTwig(SyntaxError $error): SyntaxException
     {
-        $exception = new static($error->getMessage(), $error->getCode(), $error);
+        $exception = new self($error);
         $exception->file = $error->getSourceContext()->getPath();
         $exception->line = $error->getTemplateLine();
 

@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": ">=7.2",
-    "twig/twig": "^2.5",
+    "twig/twig": "^2.5||^3.3",
     "spiral/views": "^2.7",
     "spiral/framework": "^2.7"
   },

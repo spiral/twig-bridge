@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Spiral Framework.
  *
@@ -9,17 +7,23 @@ declare(strict_types=1);
  * @author    Anton Titov (Wolfy-J)
  */
 
+declare(strict_types=1);
+
 namespace Spiral\Twig\Tests\Twig;
 
 use Spiral\Twig\Exception\SyntaxException;
 use Spiral\Views\Context\ValueDependency;
 use Spiral\Views\ViewContext;
+use Twig\Error\RuntimeError;
 
 class EngineTest extends BaseTest
 {
     public function testList(): void
     {
-        $views = $this->getTwig()->getLoader()->list();
+        $views = $this->getTwig()
+            ->getLoader()
+            ->list()
+        ;
         $this->assertContains('default:test', $views);
         $this->assertContains('other:test', $views);
     }
@@ -29,12 +33,14 @@ class EngineTest extends BaseTest
         $twig = $this->getTwig();
         $this->assertSame(
             'test',
-            $twig->get('test', new ViewContext())->render([])
+            $twig->get('test', new ViewContext())
+                ->render([])
         );
 
         $this->assertSame(
             'other test',
-            $twig->get('other:test', new ViewContext())->render([])
+            $twig->get('other:test', new ViewContext())
+                ->render([])
         );
     }
 
@@ -46,19 +52,21 @@ class EngineTest extends BaseTest
         $twig = $this->getTwig();
         $this->assertSame(
             'hello Anton of Test',
-            $twig->get('other:ctx', $ctx)->render(['name' => 'Anton'])
+            $twig->get('other:ctx', $ctx)
+                ->render(['name' => 'Anton'])
         );
     }
 
-    /**
-     * @expectedException Twig\Error\RuntimeError
-     */
     public function testRenderBlockException(): void
     {
+        $this->expectException(RuntimeError::class);
+
         $ctx = new ViewContext();
 
         $twig = $this->getTwig();
-        $twig->get('other:block', $ctx)->renderBlock('not_block');
+        $twig->get('other:block', $ctx)
+            ->renderBlock('not_block')
+        ;
     }
 
     public function testRenderBlock(): void
@@ -69,7 +77,8 @@ class EngineTest extends BaseTest
 
         $this->assertSame(
             $message,
-            $twig->get('other:block', $ctx)->renderBlock('test_block', ['message' => $message])
+            $twig->get('other:block', $ctx)
+                ->renderBlock('test_block', ['message' => $message])
         );
     }
 
@@ -79,8 +88,8 @@ class EngineTest extends BaseTest
         try {
             $twig->compile('other:error', new ViewContext());
         } catch (SyntaxException $e) {
-            $this->assertContains('end of template', $e->getMessage());
-            $this->assertContains('error.twig', $e->getFile());
+            $this->assertStringContainsString('end of template', $e->getMessage());
+            $this->assertStringContainsString('error.twig', $e->getFile());
             $this->assertSame(2, $e->getLine());
         }
     }

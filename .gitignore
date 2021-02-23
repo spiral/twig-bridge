@@ -3,4 +3,5 @@
 composer.lock
 vendor/
 *.db
+.phpunit.result.cache
 clover.xml

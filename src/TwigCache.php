@@ -38,7 +38,7 @@ final class TwigCache implements TwigCacheInterface
     public function generateKey(string $name, string $className): string
     {
         $prefix = sprintf('%s:%s', $name, $className);
-        $prefix = preg_replace('/([^A-Za-z0-9]|\-)+/', '-', $prefix);
+        $prefix = preg_replace('/([^A-Za-z0-9]|-)+/', '-', $prefix);
 
         return sprintf('%s/%s.php', rtrim($this->directory, '/') . '/', $prefix);
     }

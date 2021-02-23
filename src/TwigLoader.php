@@ -50,7 +50,7 @@ final class TwigLoader implements TwigLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSourceContext($name)
+    public function getSourceContext(string $name): Source
     {
         if (empty($this->context)) {
             throw new EngineException('Unable to use TwigLoader without given context.');
@@ -69,7 +69,7 @@ final class TwigLoader implements TwigLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getCacheKey($name)
+    public function getCacheKey(string $name): string
     {
         if (empty($this->context)) {
             throw new EngineException('Unable to use TwigLoader without given context.');
@@ -83,7 +83,7 @@ final class TwigLoader implements TwigLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function isFresh($name, $time)
+    public function isFresh(string $name, int $time): bool
     {
         return filemtime($this->loader->load($name)->getFilename()) < $time;
     }

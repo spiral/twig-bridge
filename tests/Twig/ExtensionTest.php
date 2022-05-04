@@ -1,20 +1,11 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig\Tests\Twig;
 
 use Spiral\Views\ViewContext;
-use Twig\Extension\AbstractExtension;
 use Twig\Extension\CoreExtension;
-use Twig\TwigFilter;
 
 class ExtensionTest extends BaseTest
 {
@@ -52,7 +43,7 @@ class ExtensionTest extends BaseTest
         $this->assertSame(
             '02:00 CEST',
             $twig->get('extensions:timezone', new ViewContext())
-                ->render(['test_date' => new \DateTime('2021-06-01 00:00')])
+                ->render(['test_date' => new \DateTime('2021-06-01 00:00', new \DateTimeZone('UTC'))])
         );
     }
 

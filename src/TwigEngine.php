@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig;
@@ -27,45 +20,21 @@ final class TwigEngine implements EngineInterface
 {
     protected const EXTENSION = 'twig';
 
-    /** @var bool|null|TwigCache */
-    private $cache = false;
-
-    /** @var array */
-    private $options = [];
-
-    /** @var LoaderInterface|null */
-    private $loader = null;
-
-    /** @var Environment|null */
-    private $environment = null;
-
-    /** @var ExtensionInterface[] */
-    private $extensions = [];
-
-    /** @var ProcessorInterface[] */
-    private $processors = [];
+    private ?LoaderInterface $loader = null;
+    private ?Environment $environment = null;
 
     /**
-     * @param TwigCache|null $cache
-     * @param array          $options
-     * @param array          $extensions
-     * @param array          $processors
+     * @param ExtensionInterface[] $extensions
+     * @param ProcessorInterface[] $processors
      */
     public function __construct(
-        TwigCache $cache = null,
-        array $options = [],
-        array $extensions = [],
-        array $processors = []
+        private readonly ?TwigCache $cache = null,
+        private readonly array $options = [],
+        private readonly array $extensions = [],
+        private readonly array $processors = []
     ) {
-        $this->cache = $cache ?? false;
-        $this->options = $options;
-        $this->extensions = $extensions;
-        $this->processors = $processors;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withLoader(LoaderInterface $loader): EngineInterface
     {
         $engine = clone $this;
@@ -76,7 +45,7 @@ final class TwigEngine implements EngineInterface
             $this->options
         );
 
-        $engine->environment->setCache($this->cache);
+        $engine->environment->setCache($this->cache instanceof TwigCache ? $this->cache : false);
         foreach ($this->extensions as $extension) {
             $engine->environment->addExtension($extension);
         }
@@ -84,9 +53,6 @@ final class TwigEngine implements EngineInterface
         return $engine;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLoader(): LoaderInterface
     {
         if ($this->loader === null) {
@@ -98,9 +64,6 @@ final class TwigEngine implements EngineInterface
 
     /**
      * Return environment locked to specific context.
-     *
-     * @param ContextInterface $context
-     * @return Environment
      */
     public function getEnvironment(ContextInterface $context): Environment
     {
@@ -113,9 +76,6 @@ final class TwigEngine implements EngineInterface
         return $this->environment;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function compile(string $path, ContextInterface $context): TemplateWrapper
     {
         try {
@@ -126,34 +86,24 @@ final class TwigEngine implements EngineInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function reset(string $path, ContextInterface $context): void
     {
         $path = $this->normalize($path);
 
-        if ($this->cache !== false) {
+        if ($this->cache !== null) {
             $this->cache->delete($path, $this->getEnvironment($context)->getTemplateClass($path));
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function get(string $path, ContextInterface $context): ViewInterface
     {
         return new TwigView($this->compile($path, $context));
     }
 
-    /**
-     * @param string $path
-     * @return string
-     */
     protected function normalize(string $path): string
     {
         $path = $this->getLoader()->load($path);
 
-        return sprintf('%s:%s', $path->getNamespace(), $path->getName());
+        return \sprintf('%s:%s', $path->getNamespace(), $path->getName());
     }
 }

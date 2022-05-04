@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig\Extension;
@@ -20,21 +13,12 @@ use Twig\TwigFunction;
  */
 final class ContainerExtension extends AbstractExtension
 {
-    /** @var ContainerInterface */
-    protected $container = null;
-
-    /**
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private readonly ContainerInterface $container
+    ) {
     }
 
-    /**
-     * @return array
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [new TwigFunction('get', [$this->container, 'get'])];
     }

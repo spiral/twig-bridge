@@ -19,7 +19,6 @@ use Spiral\Views\ViewLoader;
 
 class ExceptionTest extends BaseTest
 {
-
     public function testNoLoader(): void
     {
         $this->expectException(EngineException::class);

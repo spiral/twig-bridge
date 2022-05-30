@@ -41,17 +41,21 @@ abstract class BaseTest extends TestCase
     {
         $this->container = $this->container ?? new Container();
         $this->container->bind(EnvironmentInterface::class, Environment::class);
-        $this->container->bind(DirectoriesInterface::class, function () { return new Directories([
-            'app'   => __DIR__ . '/../fixtures',
-            'cache' => __DIR__ . '/../cache',
-            'config' => __DIR__ . '/../config/',
-        ]); });
+        $this->container->bind(DirectoriesInterface::class, function () {
+            return new Directories([
+                'app'   => __DIR__ . '/../fixtures',
+                'cache' => __DIR__ . '/../cache',
+                'config' => __DIR__ . '/../config/',
+            ]);
+        });
 
         $this->container->bind(ConfigsInterface::class, ConfiguratorInterface::class);
-        $this->container->bind(ConfiguratorInterface::class, function () { return new ConfigManager(
-            new DirectoryLoader(__DIR__ . '/../config/', ['php' => $this->container->get(PhpLoader::class)]),
+        $this->container->bind(ConfiguratorInterface::class, function () {
+            return new ConfigManager(
+                new DirectoryLoader(__DIR__ . '/../config/', ['php' => $this->container->get(PhpLoader::class)]),
             true
-        ); });
+            );
+        });
 
         $this->container->bind(ViewsInterface::class, ViewManager::class);
 

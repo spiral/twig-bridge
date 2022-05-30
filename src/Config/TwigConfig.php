@@ -19,8 +19,7 @@ final class TwigConfig extends InjectableConfig
 {
     public const CONFIG = 'views/twig';
 
-    /** @var array */
-    protected $config = [
+    protected array $config = [
         'options'    => [],
         'extensions' => [],
         'processors' => []

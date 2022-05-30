@@ -53,7 +53,7 @@ abstract class BaseTest extends TestCase
         $this->container->bind(ConfiguratorInterface::class, function () {
             return new ConfigManager(
                 new DirectoryLoader(__DIR__ . '/../config/', ['php' => $this->container->get(PhpLoader::class)]),
-            true
+                true
             );
         });
 

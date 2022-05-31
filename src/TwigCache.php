@@ -11,13 +11,10 @@ final class TwigCache implements TwigCacheInterface
 {
     public function __construct(
         private readonly string $directory,
-        private readonly ?FilesInterface $files = null
+        private readonly FilesInterface $files = new Files()
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generateKey(string $name, string $className): string
     {
         $prefix = \sprintf('%s:%s', $name, $className);
@@ -28,29 +25,20 @@ final class TwigCache implements TwigCacheInterface
 
     /**
      * Delete cached files.
-     *
-     * @param string $name
-     * @param class-string $className
      */
     public function delete(string $name, string $className): void
     {
         try {
             $this->files->delete($this->generateKey($name, $className));
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function write(string $key, string $content): void
     {
         $this->files->write($key, $content, FilesInterface::RUNTIME, true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(string $key): void
     {
         if ($this->files->exists($key)) {
@@ -58,9 +46,6 @@ final class TwigCache implements TwigCacheInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTimestamp(string $key): int
     {
         if ($this->files->exists($key)) {

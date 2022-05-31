@@ -14,9 +14,6 @@ final class TwigView implements ViewInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function render(array $data = []): string
     {
         return $this->wrapper->render($data);

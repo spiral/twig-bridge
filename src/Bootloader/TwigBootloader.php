@@ -16,29 +16,24 @@ use Spiral\Twig\Config\TwigConfig;
 use Spiral\Twig\Extension\ContainerExtension;
 use Spiral\Twig\TwigCache;
 use Spiral\Twig\TwigEngine;
+use Spiral\Views\Bootloader\ViewsBootloader;
 use Spiral\Views\Config\ViewsConfig;
 use Spiral\Views\Processor\ContextProcessor;
 
 final class TwigBootloader extends Bootloader
 {
-    protected const DEPENDENCIES = [
-        ViewsBootloader::class
-    ];
-
     protected const SINGLETONS = [
         TwigEngine::class => [self::class, 'twigEngine']
     ];
 
-    private ConfiguratorInterface $config;
-
-    public function __construct(ConfiguratorInterface $config)
-    {
-        $this->config = $config;
+    public function __construct(
+        private readonly ConfiguratorInterface $config
+    ) {
     }
 
-    public function boot(ContainerInterface $container, ViewsBootloader $views): void
+    public function init(ContainerInterface $container, ViewsBootloader $views): void
     {
-        $this->config->setDefaults('views/twig', [
+        $this->config->setDefaults(TwigConfig::CONFIG, [
             'options'    => [],
             'extensions' => [ContainerExtension::class],
             'processors' => [ContextProcessor::class]
@@ -53,17 +48,17 @@ final class TwigBootloader extends Bootloader
 
     public function setOption(string $key, mixed $value): void
     {
-        $this->config->modify('views/twig', new Append('options', $key, $value));
+        $this->config->modify(TwigConfig::CONFIG, new Append('options', $key, $value));
     }
 
     public function addExtension(mixed $extension): void
     {
-        $this->config->modify('views/twig', new Append('extensions', null, $extension));
+        $this->config->modify(TwigConfig::CONFIG, new Append('extensions', null, $extension));
     }
 
     public function addProcessor(mixed $processor): void
     {
-        $this->config->modify('views/twig', new Append('processors', null, $processor));
+        $this->config->modify(TwigConfig::CONFIG, new Append('processors', null, $processor));
     }
 
     private function twigEngine(

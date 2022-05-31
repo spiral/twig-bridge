@@ -14,14 +14,10 @@ use Twig\TwigFunction;
 final class ContainerExtension extends AbstractExtension
 {
     public function __construct(
-        protected ContainerInterface $container
+        private readonly ContainerInterface $container
     ) {
-
     }
 
-    /**
-     * @return TwigFunction[]
-     */
     public function getFunctions(): array
     {
         return [new TwigFunction('get', [$this->container, 'get'])];

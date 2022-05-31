@@ -16,9 +16,9 @@
         "spiral/framework": "^3.0"
     },
     "require-dev": {
-        "vimeo/psalm": "^4.6",
-        "phpunit/phpunit": "^8.0",
-        "mockery/mockery": "^1.1",
+        "vimeo/psalm": "^4.23",
+        "phpunit/phpunit": "^9.5.20",
+        "mockery/mockery": "^1.5",
         "spiral/code-style": "^1.0"
     },
     "autoload": {

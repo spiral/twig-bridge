@@ -43,7 +43,7 @@ class ExtensionTest extends BaseTest
         $this->assertSame(
             '02:00 CEST',
             $twig->get('extensions:timezone', new ViewContext())
-                ->render(['test_date' => new \DateTime('2021-06-01 00:00')])
+                ->render(['test_date' => new \DateTime('2021-06-01 00:00', new \DateTimeZone('UTC'))])
         );
     }
 

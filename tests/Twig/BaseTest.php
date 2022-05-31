@@ -14,6 +14,7 @@ use Spiral\Boot\EnvironmentInterface;
 use Spiral\Config\ConfigManager;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\Loader\DirectoryLoader;
+use Spiral\Config\Loader\PhpLoader;
 use Spiral\Core\ConfigsInterface;
 use Spiral\Core\Container;
 use Spiral\Twig\Bootloader\TwigBootloader;
@@ -30,17 +31,22 @@ abstract class BaseTest extends TestCase
     public function setUp(): void
     {
         $this->container = $this->container ?? new Container();
-        $this->container->bind(EnvironmentInterface::class, new Environment());
-        $this->container->bind(DirectoriesInterface::class, new Directories([
-            'app'   => __DIR__ . '/../fixtures',
-            'cache' => __DIR__ . '/../cache'
-        ]));
+        $this->container->bind(EnvironmentInterface::class, Environment::class);
+        $this->container->bind(DirectoriesInterface::class, function () {
+            return new Directories([
+                'app'   => __DIR__ . '/../fixtures',
+                'cache' => __DIR__ . '/../cache',
+                'config' => __DIR__ . '/../config/',
+            ]);
+        });
 
         $this->container->bind(ConfigsInterface::class, ConfiguratorInterface::class);
-        $this->container->bind(ConfiguratorInterface::class, new ConfigManager(
-            new DirectoryLoader(__DIR__ . '/../config/'),
-            true
-        ));
+        $this->container->bind(ConfiguratorInterface::class, function () {
+            return new ConfigManager(
+                new DirectoryLoader(__DIR__ . '/../config/', ['php' => $this->container->get(PhpLoader::class)]),
+                true
+            );
+        });
 
         $this->container->bind(ViewsInterface::class, ViewManager::class);
 

@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig;
@@ -22,26 +15,17 @@ final class TwigLoader implements TwigLoaderInterface
 {
     use ProcessorTrait;
 
-    /** @var LoaderInterface */
-    private $loader;
+    private ContextInterface $context;
 
-    /** @var ContextInterface */
-    private $context;
-
-    /**
-     * @param LoaderInterface $loader
-     * @param array           $processors
-     */
-    public function __construct(LoaderInterface $loader, array $processors)
-    {
-        $this->loader = $loader;
+    public function __construct(
+        private readonly LoaderInterface $loader,
+        array $processors
+    ) {
         $this->processors = $processors;
     }
 
     /**
      * Lock loader to specific context.
-     *
-     * @param ContextInterface $context
      */
     public function setContext(ContextInterface $context): void
     {
@@ -92,7 +76,7 @@ final class TwigLoader implements TwigLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function exists($name)
+    public function exists(string $name): bool
     {
         return $this->loader->exists($name);
     }

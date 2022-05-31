@@ -1,19 +1,12 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig\Bootloader;
 
 use Psr\Container\ContainerInterface;
 use Spiral\Boot\Bootloader\Bootloader;
-use Spiral\Bootloader\Views\ViewsBootloader;
+use Spiral\Views\Bootloader\ViewsBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\Patch\Append;
 use Spiral\Core\Container\Autowire;
@@ -36,21 +29,13 @@ final class TwigBootloader extends Bootloader
         TwigEngine::class => [self::class, 'twigEngine']
     ];
 
-    /** @var ConfiguratorInterface */
-    private $config;
+    private ConfiguratorInterface $config;
 
-    /**
-     * @param ConfiguratorInterface $config
-     */
     public function __construct(ConfiguratorInterface $config)
     {
         $this->config = $config;
     }
 
-    /**
-     * @param ContainerInterface $container
-     * @param ViewsBootloader    $views
-     */
     public function boot(ContainerInterface $container, ViewsBootloader $views): void
     {
         $this->config->setDefaults('views/twig', [
@@ -66,37 +51,21 @@ final class TwigBootloader extends Bootloader
         }
     }
 
-    /**
-     * @param string $key
-     * @param mixed  $value
-     */
-    public function setOption(string $key, $value): void
+    public function setOption(string $key, mixed $value): void
     {
         $this->config->modify('views/twig', new Append('options', $key, $value));
     }
 
-    /**
-     * @param mixed $extension
-     */
-    public function addExtension($extension): void
+    public function addExtension(mixed $extension): void
     {
         $this->config->modify('views/twig', new Append('extensions', null, $extension));
     }
 
-    /**
-     * @param mixed $processor
-     */
-    public function addProcessor($processor): void
+    public function addProcessor(mixed $processor): void
     {
         $this->config->modify('views/twig', new Append('processors', null, $processor));
     }
 
-    /**
-     * @param TwigConfig       $config
-     * @param ViewsConfig      $viewConfig
-     * @param FactoryInterface $factory
-     * @return TwigEngine
-     */
     private function twigEngine(
         TwigConfig $config,
         ViewsConfig $viewConfig,

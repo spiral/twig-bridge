@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig\Tests\Twig;
@@ -22,8 +15,8 @@ class EngineTest extends BaseTest
     {
         $views = $this->getTwig()
             ->getLoader()
-            ->list()
-        ;
+            ->list();
+
         $this->assertContains('default:test', $views);
         $this->assertContains('other:test', $views);
     }
@@ -65,8 +58,7 @@ class EngineTest extends BaseTest
 
         $twig = $this->getTwig();
         $twig->get('other:block', $ctx)
-            ->renderBlock('not_block')
-        ;
+            ->renderBlock('not_block');
     }
 
     public function testRenderBlock(): void

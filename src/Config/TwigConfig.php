@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig\Config;
@@ -19,16 +12,12 @@ final class TwigConfig extends InjectableConfig
 {
     public const CONFIG = 'views/twig';
 
-    /** @var array */
-    protected $config = [
+    protected array $config = [
         'options'    => [],
         'extensions' => [],
         'processors' => []
     ];
 
-    /**
-     * @return array
-     */
     public function getOptions(): array
     {
         return $this->config['options'];
@@ -71,12 +60,9 @@ final class TwigConfig extends InjectableConfig
     }
 
     /**
-     * @param mixed $item
-     * @return Autowire
-     *
      * @throws ConfigException
      */
-    private function wire($item): Autowire
+    private function wire(Autowire|string $item): Autowire
     {
         if ($item instanceof Autowire) {
             return $item;

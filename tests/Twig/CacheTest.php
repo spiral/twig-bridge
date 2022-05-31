@@ -1,18 +1,10 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig\Tests\Twig;
 
 use Spiral\Config\ConfiguratorInterface;
-use Spiral\Config\PatchInterface;
 use Spiral\Files\Files;
 use Spiral\Files\FilesInterface;
 use Spiral\Twig\TwigCache;
@@ -20,8 +12,7 @@ use Spiral\Views\ViewContext;
 
 class CacheTest extends BaseTest
 {
-    /** @var FilesInterface */
-    protected $files;
+    protected FilesInterface $files;
 
     public function setUp(): void
     {

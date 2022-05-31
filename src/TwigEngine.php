@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig;
@@ -27,40 +20,17 @@ final class TwigEngine implements EngineInterface
 {
     protected const EXTENSION = 'twig';
 
-    /** @var bool|null|TwigCache */
-    private $cache = false;
+    private bool|null|TwigCache $cache;
+    private ?LoaderInterface $loader = null;
+    private ?Environment $environment = null;
 
-    /** @var array */
-    private $options = [];
-
-    /** @var LoaderInterface|null */
-    private $loader = null;
-
-    /** @var Environment|null */
-    private $environment = null;
-
-    /** @var ExtensionInterface[] */
-    private $extensions = [];
-
-    /** @var ProcessorInterface[] */
-    private $processors = [];
-
-    /**
-     * @param TwigCache|null $cache
-     * @param array          $options
-     * @param array          $extensions
-     * @param array          $processors
-     */
     public function __construct(
         TwigCache $cache = null,
-        array $options = [],
-        array $extensions = [],
-        array $processors = []
+        private readonly array $options = [],
+        private readonly array $extensions = [],
+        private readonly array $processors = []
     ) {
         $this->cache = $cache ?? false;
-        $this->options = $options;
-        $this->extensions = $extensions;
-        $this->processors = $processors;
     }
 
     /**
@@ -98,9 +68,6 @@ final class TwigEngine implements EngineInterface
 
     /**
      * Return environment locked to specific context.
-     *
-     * @param ContextInterface $context
-     * @return Environment
      */
     public function getEnvironment(ContextInterface $context): Environment
     {
@@ -146,10 +113,6 @@ final class TwigEngine implements EngineInterface
         return new TwigView($this->compile($path, $context));
     }
 
-    /**
-     * @param string $path
-     * @return string
-     */
     protected function normalize(string $path): string
     {
         $path = $this->getLoader()->load($path);

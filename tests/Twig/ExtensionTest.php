@@ -1,26 +1,17 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig\Tests\Twig;
 
 use Spiral\Views\ViewContext;
-use Twig\Extension\AbstractExtension;
 use Twig\Extension\CoreExtension;
-use Twig\TwigFilter;
 
 class ExtensionTest extends BaseTest
 {
-    protected $x;
+    protected string $x;
 
-    public function getX()
+    public function getX(): string
     {
         return $this->x;
     }

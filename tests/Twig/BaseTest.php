@@ -1,18 +1,12 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace Spiral\Twig\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
-use Spiral\Boot\BootloadManager;
+use Spiral\Boot\BootloadManager\BootloadManager;
+use Spiral\Boot\BootloadManager\Initializer;
 use Spiral\Boot\Directories;
 use Spiral\Boot\DirectoriesInterface;
 use Spiral\Boot\Environment;
@@ -30,12 +24,8 @@ use Spiral\Views\ViewsInterface;
 abstract class BaseTest extends TestCase
 {
     public const BOOTLOADERS = [TwigBootloader::class];
-    /** @var Container */
-    protected $container;
-    /**
-     * @var BootloadManager
-     */
-    protected $app;
+    protected Container $container;
+    protected BootloadManager $app;
 
     public function setUp(): void
     {
@@ -48,13 +38,13 @@ abstract class BaseTest extends TestCase
 
         $this->container->bind(ConfigsInterface::class, ConfiguratorInterface::class);
         $this->container->bind(ConfiguratorInterface::class, new ConfigManager(
-            new DirectoryLoader(__DIR__ . '/../config/', $this->container),
+            new DirectoryLoader(__DIR__ . '/../config/'),
             true
         ));
 
         $this->container->bind(ViewsInterface::class, ViewManager::class);
 
-        $this->app = new BootloadManager($this->container);
+        $this->app = new BootloadManager($this->container, new Initializer($this->container));
         $this->app->bootload(static::BOOTLOADERS);
     }
 
@@ -63,7 +53,7 @@ abstract class BaseTest extends TestCase
         return $this->container->get(ViewsInterface::class);
     }
 
-    protected function getTwig(): TwigEngine
+    protected function getTwig(): \Spiral\Views\Engine\Native\NativeEngine
     {
         return $this->container->get(ViewsInterface::class)->getEngines()[0];
     }

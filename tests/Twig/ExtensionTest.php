@@ -9,9 +9,9 @@ use Twig\Extension\CoreExtension;
 
 class ExtensionTest extends BaseTest
 {
-    protected $x;
+    protected string $x;
 
-    public function getX()
+    public function getX(): string
     {
         return $this->x;
     }

@@ -64,7 +64,7 @@ final class TwigLoader implements TwigLoaderInterface
         return \filemtime($this->loader->load($name)->getFilename()) < $time;
     }
 
-    public function exists($name)
+    public function exists(string $name): bool
     {
         return $this->loader->exists($name);
     }

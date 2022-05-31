@@ -6,6 +6,7 @@ namespace Spiral\Twig\Bootloader;
 
 use Psr\Container\ContainerInterface;
 use Spiral\Boot\Bootloader\Bootloader;
+use Spiral\Views\Bootloader\ViewsBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\Patch\Append;
 use Spiral\Core\Container\Autowire;

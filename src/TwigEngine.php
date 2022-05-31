@@ -33,7 +33,6 @@ final class TwigEngine implements EngineInterface
         private readonly array $extensions = [],
         private readonly array $processors = []
     ) {
-        $this->cache = $cache ?? false;
     }
 
     public function withLoader(LoaderInterface $loader): EngineInterface

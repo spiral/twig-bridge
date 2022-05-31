@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiral\Twig\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
+use Spiral\Boot\Bootloader\ConfigurationBootloader;
 use Spiral\Boot\BootloadManager\BootloadManager;
 use Spiral\Boot\BootloadManager\Initializer;
 use Spiral\Boot\Directories;
@@ -24,7 +25,11 @@ use Spiral\Views\ViewsInterface;
 
 abstract class BaseTest extends TestCase
 {
-    public const BOOTLOADERS = [TwigBootloader::class];
+    public const BOOTLOADERS = [
+        ConfigurationBootloader::class,
+        TwigBootloader::class
+    ];
+
     protected Container $container;
     protected BootloadManager $app;
 
@@ -59,7 +64,7 @@ abstract class BaseTest extends TestCase
         return $this->container->get(ViewsInterface::class);
     }
 
-    protected function getTwig(): \Spiral\Views\Engine\Native\NativeEngine
+    protected function getTwig(): TwigEngine
     {
         return $this->container->get(ViewsInterface::class)->getEngines()[0];
     }

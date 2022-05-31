@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Twig\Tests\Twig;
+namespace Spiral\Twig\Tests;
 
 use Spiral\Core\Container\Autowire;
 use Spiral\Twig\Bootloader\TwigBootloader;
@@ -29,7 +29,7 @@ class ConfigTest extends BaseTest
 
         $this->assertInstanceOf(
             ContextProcessor::class,
-            $config->getProcessors()[0]->resolve($this->container)
+            $config->getProcessors()[0]->resolve($this->getContainer())
         );
     }
 
@@ -41,7 +41,7 @@ class ConfigTest extends BaseTest
 
         $this->assertInstanceOf(
             CoreExtension::class,
-            $config->getExtensions()[0]->resolve($this->container)
+            $config->getExtensions()[0]->resolve($this->getContainer())
         );
     }
 
@@ -55,16 +55,16 @@ class ConfigTest extends BaseTest
 
         $this->assertInstanceOf(
             ContextProcessor::class,
-            $config->getProcessors()[0]->resolve($this->container)
+            $config->getProcessors()[0]->resolve($this->getContainer())
         );
     }
 
     public function testDebugConfig(): void
     {
-        $loader = $this->container->get(TwigBootloader::class);
+        $loader = $this->getContainer()->get(TwigBootloader::class);
         $loader->setOption('debug', true);
 
-        $config = $this->container->get(TwigConfig::class);
+        $config = $this->getContainer()->get(TwigConfig::class);
 
         $this->assertEquals(true, $config->getOptions()['debug']);
     }

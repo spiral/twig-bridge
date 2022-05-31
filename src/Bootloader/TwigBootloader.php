@@ -16,14 +16,13 @@ use Spiral\Twig\Config\TwigConfig;
 use Spiral\Twig\Extension\ContainerExtension;
 use Spiral\Twig\TwigCache;
 use Spiral\Twig\TwigEngine;
-use Spiral\Views\Bootloader\ViewsBootloader;
 use Spiral\Views\Config\ViewsConfig;
 use Spiral\Views\Processor\ContextProcessor;
 
 final class TwigBootloader extends Bootloader
 {
     protected const SINGLETONS = [
-        TwigEngine::class => [self::class, 'twigEngine']
+        TwigEngine::class => [self::class, 'twigEngine'],
     ];
 
     public function __construct(
@@ -34,9 +33,9 @@ final class TwigBootloader extends Bootloader
     public function init(ContainerInterface $container, ViewsBootloader $views): void
     {
         $this->config->setDefaults(TwigConfig::CONFIG, [
-            'options'    => [],
+            'options' => [],
             'extensions' => [ContainerExtension::class],
-            'processors' => [ContextProcessor::class]
+            'processors' => [ContextProcessor::class],
         ]);
 
         $views->addEngine(TwigEngine::class);

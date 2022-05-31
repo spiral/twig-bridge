@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Twig\Tests\Twig;
+namespace Spiral\Twig\Tests;
 
 use Spiral\Views\ViewContext;
 use Twig\Extension\CoreExtension;
@@ -18,7 +18,7 @@ class ExtensionTest extends BaseTest
 
     public function testContainer(): void
     {
-        $this->container->bind('test', $this);
+        $this->getContainer()->bind('test', $this);
 
         $this->x = 'XXX';
         $this->assertSame(

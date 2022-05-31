@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Twig\Tests\Twig;
+namespace Spiral\Twig\Tests;
 
 use Spiral\Config\PatchInterface;
 
-class EnableCachePatch implements PatchInterface
+final class EnableCachePatch implements PatchInterface
 {
     public function patch(array $config): array
     {

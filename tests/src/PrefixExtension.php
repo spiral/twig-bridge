@@ -1,15 +1,8 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
-namespace Spiral\Twig\Tests\Twig;
+namespace Spiral\Twig\Tests;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Twig\Tests\Twig;
+namespace Spiral\Twig\Tests;
 
 use Spiral\Twig\Exception\SyntaxException;
 use Spiral\Views\Context\ValueDependency;

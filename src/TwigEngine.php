@@ -11,6 +11,7 @@ use Spiral\Views\Exception\EngineException;
 use Spiral\Views\LoaderInterface;
 use Spiral\Views\ProcessorInterface;
 use Spiral\Views\ViewInterface;
+use Twig\Cache\CacheInterface as TwigCacheInterface;
 use Twig\Environment;
 use Twig\Error\SyntaxError;
 use Twig\Extension\ExtensionInterface;
@@ -22,13 +23,14 @@ final class TwigEngine implements EngineInterface
 
     private ?LoaderInterface $loader = null;
     private ?Environment $environment = null;
+    private readonly TwigCacheInterface|bool|null $cache;
 
     /**
      * @param ExtensionInterface[] $extensions
      * @param ProcessorInterface[] $processors
      */
     public function __construct(
-        private readonly ?TwigCache $cache = null,
+        TwigCacheInterface|bool|null $cache = null,
         private readonly array $options = [],
         private readonly array $extensions = [],
         private readonly array $processors = []

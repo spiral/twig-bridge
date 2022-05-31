@@ -2,6 +2,7 @@
 [![Latest Stable Version](https://poser.pugx.org/spiral/twig-bridge/version)](https://packagist.org/packages/spiral/twig-bridge)
 [![CI Status](https://github.com/spiral/twig-bridge/workflows/Testing/badge.svg)](https://github.com/spiral/twig-bridge/actions)
 [![Codecov](https://codecov.io/gh/spiral/twig-bridge/branch/master/graph/badge.svg)](https://codecov.io/gh/spiral/twig-bridge/)
+[![StyleCI](https://github.styleci.io/repos/151832215/shield?branch=2.0)](https://github.styleci.io/repos/151832215?branch=2.0)
 
 ## Installation
 The extension requires `spiral/views` package.

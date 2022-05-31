@@ -16,14 +16,14 @@ abstract class BaseTest extends \Spiral\Testing\TestCase
 
     public function rootDirectory(): string
     {
-        return __DIR__.'/../';
+        return __DIR__ . '/../';
     }
 
     public function defineBootloaders(): array
     {
         return [
             \Spiral\Boot\Bootloader\ConfigurationBootloader::class,
-            \Spiral\Twig\Bootloader\TwigBootloader::class
+            \Spiral\Twig\Bootloader\TwigBootloader::class,
         ];
     }
 

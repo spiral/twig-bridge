@@ -13,9 +13,9 @@ final class TwigConfig extends InjectableConfig
     public const CONFIG = 'views/twig';
 
     protected array $config = [
-        'options'    => [],
+        'options' => [],
         'extensions' => [],
-        'processors' => []
+        'processors' => [],
     ];
 
     public function getOptions(): array

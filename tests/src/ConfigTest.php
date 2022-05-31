@@ -15,7 +15,7 @@ class ConfigTest extends BaseTest
     public function testOptions(): void
     {
         $config = new TwigConfig([
-            'options' => ['option' => 'value']
+            'options' => ['option' => 'value'],
         ]);
 
         $this->assertSame(['option' => 'value'], $config->getOptions());
@@ -24,7 +24,7 @@ class ConfigTest extends BaseTest
     public function testWireConfigString(): void
     {
         $config = new TwigConfig([
-            'processors' => [ContextProcessor::class]
+            'processors' => [ContextProcessor::class],
         ]);
 
         $this->assertInstanceOf(
@@ -36,7 +36,7 @@ class ConfigTest extends BaseTest
     public function testWireConfigExtensions(): void
     {
         $config = new TwigConfig([
-            'extensions' => [CoreExtension::class]
+            'extensions' => [CoreExtension::class],
         ]);
 
         $this->assertInstanceOf(
@@ -49,8 +49,8 @@ class ConfigTest extends BaseTest
     {
         $config = new TwigConfig([
             'processors' => [
-                new Autowire(ContextProcessor::class)
-            ]
+                new Autowire(ContextProcessor::class),
+            ],
         ]);
 
         $this->assertInstanceOf(

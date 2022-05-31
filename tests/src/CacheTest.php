@@ -28,7 +28,7 @@ class CacheTest extends BaseTest
 
     public function testCache(): void
     {
-        $cacheDir = __DIR__.'/../app/runtime/cache/';
+        $cacheDir = __DIR__ . '/../app/runtime/cache/';
         $this->assertCount(0, $this->files->getFiles($cacheDir, '*.php'));
 
         $twig = $this->getTwig();
@@ -40,7 +40,7 @@ class CacheTest extends BaseTest
         $this->assertCount(0, $this->files->getFiles($cacheDir, '*.php'));
 
         $cache = new TwigCache($cacheDir);
-        $this->assertNotSame(0, $cache->getTimestamp($cacheDir. '.empty'));
-        $this->assertSame(0, $cache->getTimestamp($cacheDir. '.other'));
+        $this->assertNotSame(0, $cache->getTimestamp($cacheDir . '.empty'));
+        $this->assertSame(0, $cache->getTimestamp($cacheDir . '.other'));
     }
 }

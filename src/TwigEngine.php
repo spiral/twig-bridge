@@ -41,7 +41,7 @@ final class TwigEngine implements EngineInterface
     public function withLoader(LoaderInterface $loader): EngineInterface
     {
         $engine = clone $this;
-        $engine->loader = $loader->withExtension(static::EXTENSION);
+        $engine->loader = $loader->withExtension(self::EXTENSION);
 
         $engine->environment = new Environment(
             new TwigLoader($engine->loader, $this->processors),

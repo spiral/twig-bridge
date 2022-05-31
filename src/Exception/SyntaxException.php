@@ -9,7 +9,7 @@ use Twig\Error\SyntaxError;
 
 class SyntaxException extends CompileException
 {
-    public static function fromTwig(SyntaxError $error): SyntaxException
+    public static function fromTwig(SyntaxError $error): self
     {
         $exception = new self($error);
         $exception->file = $error->getSourceContext()->getPath();

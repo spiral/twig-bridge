@@ -18,7 +18,8 @@
     },
     "require-dev": {
         "vimeo/psalm": "^4.23",
-        "spiral/testing": "^2.0"
+        "spiral/testing": "^2.0",
+        "phpunit/phpunit": "^9.5.20"
     },
     "autoload": {
         "psr-4": {

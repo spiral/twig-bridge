@@ -3,7 +3,7 @@
 [![PHP Version Require](https://poser.pugx.org/spiral/twig-bridge/require/php)](https://packagist.org/packages/spiral/twig-bridge)
 [![Latest Stable Version](https://poser.pugx.org/spiral/twig-bridge/v/stable)](https://packagist.org/packages/spiral/twig-bridge)
 [![phpunit](https://github.com/spiral/twig-bridge/actions/workflows/phpunit.yml/badge.svg)](https://github.com/spiral/twig-bridge/actions)
-[![psalm](https://github.com/spiral/twig-bridge/actions/workflows/psalm.yml/badge.svg)](https://github.com/spiral/twig-bridge/actions)
+[![psalm](https://github.com/spiral/twig-bridge/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/spiral/twig-bridge/actions)
 [![Codecov](https://codecov.io/gh/spiral/twig-bridge/branch/master/graph/badge.svg)](https://codecov.io/gh/spiral/twig-bridge/)
 [![Total Downloads](https://poser.pugx.org/spiral/twig-bridge/downloads)](https://packagist.org/packages/spiral/twig-bridge)
 [![type-coverage](https://shepherd.dev/github/spiral/twig-bridge/coverage.svg)](https://shepherd.dev/github/spiral/twig-bridge)

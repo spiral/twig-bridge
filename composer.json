@@ -11,14 +11,15 @@
     ],
     "require": {
         "php": "^8.1",
-        "twig/twig": "^2.13||^3.3",
+        "twig/twig": "^3.3.3",
         "spiral/core": "^3.0",
         "spiral/views": "^3.0",
         "spiral/framework": "^3.0"
     },
     "require-dev": {
         "vimeo/psalm": "^4.23",
-        "spiral/testing": "^2.0"
+        "spiral/testing": "^2.0",
+        "phpunit/phpunit": "^9.5.20"
     },
     "autoload": {
         "psr-4": {

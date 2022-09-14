@@ -1,14 +1,22 @@
 # Spiral Framework: Twig Adapter
-[![Latest Stable Version](https://poser.pugx.org/spiral/twig-bridge/version)](https://packagist.org/packages/spiral/twig-bridge)
-[![CI Status](https://github.com/spiral/twig-bridge/workflows/Testing/badge.svg)](https://github.com/spiral/twig-bridge/actions)
+
+[![PHP Version Require](https://poser.pugx.org/spiral/twig-bridge/require/php)](https://packagist.org/packages/spiral/twig-bridge)
+[![Latest Stable Version](https://poser.pugx.org/spiral/twig-bridge/v/stable)](https://packagist.org/packages/spiral/twig-bridge)
+[![phpunit](https://github.com/spiral/twig-bridge/actions/workflows/phpunit.yml/badge.svg)](https://github.com/spiral/twig-bridge/actions)
+[![psalm](https://github.com/spiral/twig-bridge/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/spiral/twig-bridge/actions)
 [![Codecov](https://codecov.io/gh/spiral/twig-bridge/branch/master/graph/badge.svg)](https://codecov.io/gh/spiral/twig-bridge/)
-[![StyleCI](https://github.styleci.io/repos/151832215/shield?branch=2.0)](https://github.styleci.io/repos/151832215?branch=2.0)
+[![Total Downloads](https://poser.pugx.org/spiral/twig-bridge/downloads)](https://packagist.org/packages/spiral/twig-bridge)
+[![type-coverage](https://shepherd.dev/github/spiral/twig-bridge/coverage.svg)](https://shepherd.dev/github/spiral/twig-bridge)
+[![psalm-level](https://shepherd.dev/github/spiral/twig-bridge/level.svg)](https://shepherd.dev/github/spiral/twig-bridge)
+
+<b>[Documentation](https://spiral.dev/docs/views-twig)</b> | [Framework Bundle](https://github.com/spiral/framework)
 
 ## Installation
+
 The extension requires `spiral/views` package.
 
 ```
-$ composer require spiral/twig-bridge
+composer require spiral/twig-bridge
 ```
 
 To enable extension modify your application by adding `Spiral\Twig\Bootloader\TwigBootloader`:
@@ -30,6 +38,7 @@ class App extends Kernel
 ```
 
 ## Configuration
+
 You can enable any custom twig extension by requesting `Spiral\Twig\TwigEngine` in your bootloaders:
 
 ```php
@@ -43,6 +52,7 @@ class TwigExtensionBootloader extends Bootloader
 ```
 
 ## Lazy Configuration
+
 To configure TwigEngine on demand use functionality provided by `TwigBootloader`:
 
 ```php
@@ -54,5 +64,10 @@ class TwigExtensionBootloader extends Bootloader
     }
 }
 ```
-
+> **Note**
 > Following methods are available `setOption`, `addExtension`, `addProcessor`.
+
+## License:
+
+MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maintained by [Spiral Scout](https://spiralscout.com).
+
